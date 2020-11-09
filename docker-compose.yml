@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  db:
+    hostname: sweater
+    container_name: sweater_db
+    image: postgres
+    restart: always
+    volumes:
+      - "/Users/18301689/Kotlin/letsCode/sweater/src/main/resources/volumes/database:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: sweater
+      POSTGRES_USER: u
+      POSTGRES_PASSWORD: p
