@@ -1,0 +1,14 @@
+server:
+  address: localhost
+  port: 8080
+
+spring:
+  jpa:
+    generate-ddl: true
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sweater
+    username: u
+    password: p
+  mustache:
+    expose-request-attributes: true

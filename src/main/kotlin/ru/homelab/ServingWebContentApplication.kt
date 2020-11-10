@@ -9,7 +9,7 @@ open class ServingWebContentApplication {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            runApplication<ServingWebContentApplication>(*args);
+            runApplication<ServingWebContentApplication>(*args)
         }
     }
 }

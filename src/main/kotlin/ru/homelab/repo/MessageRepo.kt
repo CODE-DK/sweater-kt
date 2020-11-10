@@ -7,5 +7,5 @@ import ru.homelab.entity.Message
 @Repository
 interface MessageRepo : JpaRepository<Message, Long> {
 
-    fun findByTag(tag: String): List<Message>
+    fun findByTag(tag: String): MutableList<Message>?
 }
