@@ -7,7 +7,15 @@ import javax.persistence.*
 data class Message(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long? = null,
-    var text: String? = null,
-    var tag: String? = null
-)
+    val id: Long = 0,
+    var text: String = "",
+    var tag: String = "",
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    var author: User? = null
+) {
+    fun getAuthorName(): String {
+        return author?.username ?: "<none>"
+    }
+}

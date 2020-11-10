@@ -19,14 +19,14 @@ class RegistrationController(
 
     @PostMapping("/registration")
     fun add(user: User, model: MutableMap<String, Any>): String {
-        val userFromDb = userRepo.findByUsername(user.username!!)
+        val userFromDb = userRepo.findByUsername(user.username)
 
         userFromDb?.let {
             model["message"] = "User exists!"
             return "registration"
         }
 
-        user.isActive = true
+        user.active = true
         user.roles = mutableSetOf(USER)
         userRepo.save(user)
 

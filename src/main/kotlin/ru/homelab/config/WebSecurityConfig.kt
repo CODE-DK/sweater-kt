@@ -6,37 +6,32 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.password.NoOpPasswordEncoder
-import javax.sql.DataSource
+import ru.homelab.server.UserService
 
 @Configuration
 @EnableWebSecurity
-open class WebSecurityConfig(private val dataSource: DataSource) : WebSecurityConfigurerAdapter() {
+open class WebSecurityConfig(
+    private val userService: UserService
+) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http
             .authorizeRequests()
-                .antMatchers("/", "/registration")
-                .permitAll()
-                .anyRequest().authenticated()
+            .antMatchers("/", "/registration")
+            .permitAll()
+            .anyRequest().authenticated()
             .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
+            .formLogin()
+            .loginPage("/login")
+            .permitAll()
             .and()
-                .logout()
-                .permitAll()
+            .logout()
+            .permitAll()
     }
-
-    private val user = "select username, password, is_active from users where username=?"
-    private val role =
-        "select u.username, ur.roles from users u inner join user_role ur on u.id = ur.user_id where u.username=?"
 
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth
-            .jdbcAuthentication()
-            .dataSource(dataSource)
+            .userDetailsService(userService)
             .passwordEncoder(NoOpPasswordEncoder.getInstance())
-            .usersByUsernameQuery(user)
-            .authoritiesByUsernameQuery(role)
     }
 }

@@ -6,5 +6,6 @@ import ru.homelab.entity.User
 
 @Repository
 interface UserRepo : JpaRepository<User, Long> {
+
     fun findByUsername(username: String): User?
 }
