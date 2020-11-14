@@ -10,5 +10,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/sweater
     username: u
     password: p
-  mustache:
+  freemarker:
     expose-request-attributes: true

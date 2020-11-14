@@ -1,6 +1,7 @@
 package ru.homelab.controller
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import ru.homelab.entity.Role.USER
@@ -18,11 +19,11 @@ class RegistrationController(
     }
 
     @PostMapping("/registration")
-    fun add(user: User, model: MutableMap<String, Any>): String {
+    fun add(user: User, model: Model): String {
         val userFromDb = userRepo.findByUsername(user.username)
 
         userFromDb?.let {
-            model["message"] = "User exists!"
+            model.addAttribute("message", "User exists!")
             return "registration"
         }
 

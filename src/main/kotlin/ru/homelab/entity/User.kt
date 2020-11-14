@@ -9,7 +9,7 @@ import javax.persistence.*
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Long = -1,
+    var id: Long = -1,
     private var username: String = "",
     private var password: String = "",
     var active: Boolean = false,

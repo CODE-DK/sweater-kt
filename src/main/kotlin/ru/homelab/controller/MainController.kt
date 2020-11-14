@@ -2,6 +2,7 @@ package ru.homelab.controller
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -15,31 +16,26 @@ class MainController(
 ) {
 
     @GetMapping("/")
-    fun home(model: MutableMap<String, Any?>): String {
+    fun home(): String {
         return "home"
     }
 
     @GetMapping("/main")
-    fun main(model: MutableMap<String, Any?>): String {
-        val messages = messageRepo.findAll()
-        model["messages"] = messages
-        return "main"
-    }
-
-    @PostMapping("/filter")
-    fun filter(model: MutableMap<String, Any?>, @RequestParam filter: String?): String {
+    fun main(model: Model, @RequestParam(required = false, defaultValue = "") filter: String?): String {
         val messages = if (filter != null && filter.isNotEmpty()) {
             messageRepo.findByTag(filter)
         } else {
             messageRepo.findAll()
         }
-        model["messages"] = messages
+
+        model.addAttribute("messages", messages)
+        model.addAttribute("filter", filter)
         return "main"
     }
 
     @PostMapping("/add")
     fun add(
-        model: MutableMap<String, Any?>,
+        model: Model,
         @RequestParam text: String,
         @RequestParam tag: String,
         @AuthenticationPrincipal user: User
@@ -47,7 +43,7 @@ class MainController(
         val message = Message(text = text, tag = tag, author = user)
         messageRepo.save(message)
         val messages = messageRepo.findAll()
-        model["messages"] = messages
+        model.addAttribute("messages", messages)
         return "main"
     }
 }

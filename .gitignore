@@ -6,3 +6,7 @@
 /gradle.properties
 /local.properties
 /settings.gradle
+src/main/resources/volumes/*/**
+
+.gradle
+build
